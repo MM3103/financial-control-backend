@@ -66,6 +66,42 @@
                 <profile.logging>debug</profile.logging>
             </properties>
         </profile>
+        <profile>
+            <id>production</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>production</value>
+                </property>
+            </activation>
+
+            <properties>
+                <profile.changelogSchemaName>public</profile.changelogSchemaName>
+                <profile.propertyFile>src/main/resources/db/production/liquibase.properties</profile.propertyFile>
+                <profile.changeLogFile>src/main/resources/db/master.xml</profile.changeLogFile>
+                <profile.dataDir>src/main/resources/db/production/data</profile.dataDir>
+                <profile.verbose>true</profile.verbose>
+                <profile.logging>debug</profile.logging>
+            </properties>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>ci</value>
+                </property>
+            </activation>
+
+            <properties>
+                <profile.changelogSchemaName>public</profile.changelogSchemaName>
+                <profile.propertyFile>src/main/resources/db/ci/liquibase.properties</profile.propertyFile>
+                <profile.changeLogFile>src/main/resources/db/master.xml</profile.changeLogFile>
+                <profile.dataDir>src/main/resources/db/ci/data</profile.dataDir>
+                <profile.verbose>true</profile.verbose>
+                <profile.logging>debug</profile.logging>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
