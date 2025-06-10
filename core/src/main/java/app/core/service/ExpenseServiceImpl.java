@@ -1,9 +1,9 @@
 package app.core.service;
 
-import app.core.api.IncomeService;
-import app.core.model.Income;
+import app.core.api.ExpenseService;
+import app.core.model.Expense;
 import app.core.model.User;
-import app.core.repository.IncomeRepository;
+import app.core.repository.ExpenseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,41 +20,41 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class IncomeServiceImpl implements IncomeService {
+public class ExpenseServiceImpl implements ExpenseService {
 
-    private final IncomeRepository incomeRepository;
+    private final ExpenseRepository expenseRepository;
 
     @Override
-    public Income get(Long id) {
-        return incomeRepository
+    public Expense get(Long id) {
+        return expenseRepository
                 .findById(id).orElseThrow(() -> new EntityNotFoundException("Не найдено дохода по id: " + id));
     }
 
     @Override
-    public Income create(Income income) {
-        income.setCreateDate(OffsetDateTime.now());
-        income.setUser(getUser());
-        return incomeRepository.save(income);
+    public Expense create(Expense expense) {
+        expense.setCreateDate(OffsetDateTime.now());
+        expense.setUser(getUser());
+        return expenseRepository.save(expense);
     }
 
     @Override
     public void delete(Long id) {
-        Income income = incomeRepository
+        Expense Expense = expenseRepository
                 .findById(id).orElseThrow(() -> new EntityNotFoundException("Не найдено дохода по id: " + id));
-        incomeRepository.delete(income);
+        expenseRepository.delete(Expense);
     }
 
     @Override
-    public Income update(Long id, Income newIncome) {
-        newIncome.setId(id);
-        newIncome.setCreateDate(OffsetDateTime.now());
-        return incomeRepository.saveAndFlush(newIncome);
+    public Expense update(Long id, Expense newExpense) {
+        newExpense.setId(id);
+        newExpense.setCreateDate(OffsetDateTime.now());
+        return expenseRepository.saveAndFlush(newExpense);
     }
 
     @Override
-    public List<Income> getAllUserIncomes() {
+    public List<Expense> getAllUserExpenses() {
         User user = getUser();
-        return incomeRepository.findAllByUserId(user.getId());
+        return expenseRepository.findAllByUserId(user.getId());
     }
 
     private User getUser() {

@@ -10,14 +10,14 @@ import java.time.OffsetDateTime;
 
 @Data
 @Entity
-@Table(name = "income", schema = "public")
+@Table(name = "expenses", schema = "public")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Income {
+public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "income_seq")
-    @SequenceGenerator(name = "income_seq", sequenceName = "income_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expenses_seq")
+    @SequenceGenerator(name = "expenses_seq", sequenceName = "expenses_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "amount", nullable = false)
