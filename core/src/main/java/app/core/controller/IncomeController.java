@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+//TODO: Нужен еще рест чтобы получать все существующие доходы без id
+//TODO: Хз насчет нужно ли в DELETE возвращать саму сущность которую мы стерли. Как будто 200 или 204 с пустым боди достаточно
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class IncomeController {
 
     private final IncomeService incomeService;
-
     @GetMapping("/{id}")
     @Operation(summary = "Получить информацию о доходе")
     public Income get(@PathVariable Long id) {

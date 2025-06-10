@@ -12,8 +12,8 @@
 
 
         <rollback>
-            <sqlFile path="1.0.0/rollback/create-order-items-rollback.sql" relativeToChangelogFile="true"/>
-            <sqlFile path="1.0.0/rollback/create-orders-rollback.sql" relativeToChangelogFile="true"/>
+            <sqlFile path="1.0.0/rollback/create-expenses-rollback.sql" relativeToChangelogFile="true"/>
+            <sqlFile path="1.0.0/rollback/create-income-rollback.sql" relativeToChangelogFile="true"/>
         </rollback>
 
     </changeSet>

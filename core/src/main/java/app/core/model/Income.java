@@ -25,6 +25,7 @@ public class Income {
     @Column(name = "category", length = 128)
     private String category;
 
+    //TODO: надо нам над форматом подумать, 6 знаков милисекунд не нужны по моему (в скриптах создания таблицы)
     @Column(name = "create_date", nullable = false, updatable = false)
     private OffsetDateTime createDate;
 }
