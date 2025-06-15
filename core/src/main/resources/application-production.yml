@@ -3,9 +3,6 @@ authentication:
 
 server:
   port: 8484
-spring:
-  profiles:
-    active: production
   application:
     name: financial-control
   datasource:
