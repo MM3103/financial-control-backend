@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/income")
+@RequestMapping("/api/incomes")
 @Tag(name = "Контроллер доходов", description = "Контроллер для доходов")
 @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Запрос выполнен успешно"),
 @ApiResponse(responseCode = "401", description = "Ошибка доступа(пользователь не авторизован)")})

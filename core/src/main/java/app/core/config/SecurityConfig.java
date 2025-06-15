@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,7 +23,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -36,6 +36,7 @@ public class SecurityConfig {
     @ConditionalOnProperty(name = "authentication.enabled", havingValue = "true")
     public SecurityFilterChain sessionBasedAuthFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authenticationProvider(authenticationProvider())
                 .securityContext(context -> context.securityContextRepository(securityContextRepository()))
@@ -60,6 +61,7 @@ public class SecurityConfig {
     @ConditionalOnProperty(name = "authentication.enabled", havingValue = "false")
     public SecurityFilterChain noAuthFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .build();

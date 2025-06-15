@@ -29,28 +29,28 @@ public class GlobalExceptionHandler {
                         FieldError::getField,
                         FieldError::getDefaultMessage
                 ));
-        log.error("MethodArgumentNotValidException: {}.", errors, e);
+        log.error("MethodArgumentNotValidException: {}.", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ValidationException.builder().msg("Validation failed").errors(errors).build());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<CommonException> badCredentialsExceptionHandler(BadCredentialsException e) {
-        log.error("BadCredentialsException: {}.", e.getMessage(), e);
+        log.error("BadCredentialsException: {}.", e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(CommonException.builder().msg("Invalid username or password").cause(e.getMessage()).build());
     }
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
     public ResponseEntity<CommonException> insufficientAuthenticationExceptionHandler(InsufficientAuthenticationException e) {
-        log.error("InsufficientAuthenticationException: {}.", e.getMessage(), e);
+        log.error("InsufficientAuthenticationException: {}.", e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(CommonException.builder().msg("Insufficient authentication").cause(e.getMessage()).build());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CommonException> unhandledExceptionHandler(Exception e) {
-        log.error("An unexpected error occurs: {}.", e.getMessage(), e);
+        log.error("An unexpected error occurs: {}.", e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(CommonException.builder().msg("Something went wrong").cause(e.getMessage()).build());
     }

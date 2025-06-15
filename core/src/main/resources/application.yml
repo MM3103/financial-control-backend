@@ -3,9 +3,11 @@ authentication:
 
 server:
   port: 8484
-  servlet:
-    context-path: /api
+frontend:
+  url: &frontUrl http://localhost:3000
 spring:
+  profiles:
+    active: local
   application:
     name: financial-control
   datasource:
@@ -13,6 +15,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/financial
     username: postgres
     password: 1234
+cors:
+  allowed-origins: *frontUrl
 logging:
   level:
     app.core: debug

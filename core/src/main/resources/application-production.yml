@@ -3,9 +3,9 @@ authentication:
 
 server:
   port: 8484
-  servlet:
-    context-path: /api
 spring:
+  profiles:
+    active: production
   application:
     name: financial-control
   datasource:
