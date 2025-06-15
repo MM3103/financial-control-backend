@@ -1,6 +1,6 @@
 # Stage 1: Build
 FROM maven:3.9.9-eclipse-temurin-17 AS build
-
+ARG BUILD_PROFILE
 ENV BUILD_PROFILE=${BUILD_PROFILE}
 
 WORKDIR /app
@@ -14,7 +14,7 @@ FROM eclipse-temurin:21
 WORKDIR /app
 
 COPY --from=build /app/core/target/*.jar financial-app.jar
-
+ARG SPRING_PROFILE
 ENV SPRING_PROFILE=${SPRING_PROFILE}
 
 EXPOSE 8484

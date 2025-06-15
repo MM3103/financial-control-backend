@@ -42,11 +42,11 @@ public class SecurityConfig {
                 .securityContext(context -> context.securityContextRepository(securityContextRepository()))
                 .requestCache(RequestCacheConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
+                        .logoutUrl("/api/auth/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessHandler(logoutSuccessHandler())
