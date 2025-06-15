@@ -10,9 +10,9 @@ spring:
     name: financial-control
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://ep-polished-wildflower-a2p0p7k9-pooler.eu-central-1.aws.neon.tech/financial
-    username: neondb_owner
-    password: npg_vJmqn82jtNDw
+    url: jdbc:postgresql://ep-silent-truth-a2btkacz-pooler.eu-central-1.aws.neon.tech/financial
+    username: financial_owner
+    password: npg_aA7YO5HLgyde
 logging:
   level:
     app.core: debug
