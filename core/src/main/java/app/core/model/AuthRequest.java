@@ -2,5 +2,8 @@ package app.core.model;
 
 import jakarta.validation.constraints.NotNull;;
 
-public record AuthRequest(@NotNull String username, @NotNull String password) {
+public record AuthRequest(@NotNull String username,
+                          @NotNull String password,
+                          String email,
+                          boolean rememberMe) {
 }

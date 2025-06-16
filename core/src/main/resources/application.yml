@@ -1,5 +1,8 @@
 authentication:
   enabled: true
+  remember-me:
+    key: P+TvGNKSGB909e+MFm4hid583N+d+ndbnwew/dNMvyo=
+    expiration: 604 800 # 7 days
 
 server:
   port: 8484
@@ -20,3 +23,4 @@ cors:
 logging:
   level:
     app.core: debug
+    org.springframework.security.web.authentication.rememberme: debug

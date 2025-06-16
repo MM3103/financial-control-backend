@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,19 +23,31 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
+    private final RememberMeServices rememberMeServices;
 
     public boolean authenticate(AuthRequest authRequest, HttpServletRequest request, HttpServletResponse response) {
         boolean authenticated = false;
-        UsernamePasswordAuthenticationToken authToken = UsernamePasswordAuthenticationToken.unauthenticated(authRequest.username(), authRequest.password());
-        log.debug("Authentication attempt for user w/ username={}", authRequest.username());
-        Authentication authentication = authenticationManager.authenticate(authToken);
-        if (authentication.isAuthenticated()) {
-            SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-            context.setAuthentication(authentication);
-            securityContextHolderStrategy.setContext(context);
-            securityContextRepository.saveContext(context, request, response);
-            authenticated = true;
-            log.debug("User w/ username={} successfully authenticated", authRequest.username());
+        try {
+            UsernamePasswordAuthenticationToken authToken = UsernamePasswordAuthenticationToken.unauthenticated(authRequest.username(), authRequest.password());
+            log.debug("Authentication attempt for user w/ username={}", authRequest.username());
+            Authentication authentication = authenticationManager.authenticate(authToken);
+            if (authentication.isAuthenticated()) {
+                SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+                context.setAuthentication(authentication);
+                securityContextHolderStrategy.setContext(context);
+                securityContextRepository.saveContext(context, request, response);
+
+                if (authRequest.rememberMe()) {
+                    rememberMeServices.loginSuccess(request, response, authentication);
+                }
+
+                authenticated = true;
+                log.debug("User w/ username={} successfully authenticated", authRequest.username());
+            }
+        } catch (Exception e) {
+            rememberMeServices.loginFail(request, response);
+            log.debug("Authentication failed for user w/ username={}", authRequest.username());
+            throw e;
         }
         return authenticated;
     }

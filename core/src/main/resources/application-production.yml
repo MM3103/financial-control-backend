@@ -1,5 +1,9 @@
 authentication:
   enabled: true
+  remember-me:
+    key: b/tL7tdd6tY6KLGW5ReocJLuZT+ARzJAvP2EuhNm8ro=
+    expiration: 604 800 # 7 days
+
 
 server:
   port: 8484

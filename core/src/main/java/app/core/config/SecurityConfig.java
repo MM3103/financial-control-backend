@@ -2,6 +2,7 @@ package app.core.config;
 
 import app.core.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,9 @@ import org.springframework.security.config.annotation.web.configurers.RequestCac
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -32,6 +35,12 @@ public class SecurityConfig {
     private final UserServiceImpl userService;
     private final HandlerExceptionResolver handlerExceptionResolver;
 
+    @Value("${authentication.remember-me.key}")
+    private String rememberMeKey;
+
+    @Value("${authentication.remember-me.expiration}")
+    private Integer rememberMeExp;
+
     @Bean
     @ConditionalOnProperty(name = "authentication.enabled", havingValue = "true")
     public SecurityFilterChain sessionBasedAuthFilterChain(HttpSecurity http) throws Exception {
@@ -42,8 +51,11 @@ public class SecurityConfig {
                 .securityContext(context -> context.securityContextRepository(securityContextRepository()))
                 .requestCache(RequestCacheConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .rememberMe(remember -> remember
+                        .rememberMeServices(rememberMeServices())
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
@@ -101,5 +113,14 @@ public class SecurityConfig {
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, exception) -> handlerExceptionResolver.resolveException(request, response, null, exception);
+    }
+
+    @Bean
+    public RememberMeServices rememberMeServices() {
+        TokenBasedRememberMeServices rememberMeServices =
+                new TokenBasedRememberMeServices(rememberMeKey, userService);
+        rememberMeServices.setAlwaysRemember(true);
+        rememberMeServices.setTokenValiditySeconds(rememberMeExp);
+        return rememberMeServices;
     }
 }
