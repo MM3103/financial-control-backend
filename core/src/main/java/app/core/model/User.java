@@ -29,6 +29,8 @@ public class User implements UserDetails {
     private String username;
     @Column(name = "password_hash", length = 128)
     private String password;
+    @Column(name = "email", length = 128)
+    private String email;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

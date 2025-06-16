@@ -34,6 +34,7 @@ public class SecurityConfig {
 
     private final UserServiceImpl userService;
     private final HandlerExceptionResolver handlerExceptionResolver;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${authentication.remember-me.key}")
     private String rememberMeKey;
@@ -90,15 +91,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService);
-        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
     }
 
